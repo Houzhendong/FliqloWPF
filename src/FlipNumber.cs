@@ -25,6 +25,7 @@ namespace FliqloWPF
         DoubleAnimation nextBottomHalfFlipAnimation;
         DoubleAnimation currentTopHalfFlipAnimation;
         Storyboard storyboard;
+        bool isAnimating;
 
         public FlipNumber()
         {
@@ -61,6 +62,7 @@ namespace FliqloWPF
             currentTopPage.Visibility = Visibility.Collapsed;
             nextBottomPage.Visibility = Visibility.Collapsed;
             LastNumber = CurrentNumber;
+            isAnimating = false;
         }
 
         #region Dependency Property
@@ -121,10 +123,15 @@ namespace FliqloWPF
 
         public void DoFlipAnimation()
         {
+            if (isAnimating)
+                return;
+
             currentBottomPage.Visibility = Visibility.Visible;
             currentTopPage.Visibility = Visibility.Visible;
             nextBottomPage.Visibility = Visibility.Visible;
             storyboard.Begin(this);
+
+            isAnimating = true;
         }
 
     }
