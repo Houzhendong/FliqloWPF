@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Configuration;
+﻿using System;
 using System.IO;
 using System.Timers;
 
@@ -9,6 +7,7 @@ namespace FliqloWPF
     public class AppViewModel : ObservableObject
     {
         readonly Timer timer;
+        IniFile iniFile;
         string minute;
         string hour;
         bool is12HourClock;
@@ -43,7 +42,7 @@ namespace FliqloWPF
         public double Width
         {
             get => width;
-            set => SetProperty(ref width, value); 
+            set => SetProperty(ref width, value);
         }
 
         public byte Brightness
@@ -63,9 +62,14 @@ namespace FliqloWPF
 
         private void Init()
         {
-            Is12HourClock = Properties.Settings.Default.Is12HourClock;
-            Brightness = Properties.Settings.Default.Brightness;
-            Width = Properties.Settings.Default.Width;
+            iniFile = new IniFile();
+            if (File.Exists("Config.ini"))
+            {
+                iniFile.Load("Config.ini");
+                Is12HourClock = iniFile["Root"]["Is12HourClock"].ToBool();
+                Brightness = (byte)iniFile["Root"]["Brightness"].ToInt();
+                Width = iniFile["Root"]["Width"].ToDouble();
+            }
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -87,10 +91,10 @@ namespace FliqloWPF
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.Is12HourClock = Is12HourClock;
-            Properties.Settings.Default.Brightness = Brightness;
-            Properties.Settings.Default.Width = Width;
-            Properties.Settings.Default.Save();
+            iniFile["Root"]["Is12HourClock"] = Is12HourClock;
+            iniFile["Root"]["Brightness"] = Brightness;
+            iniFile["Root"]["Width"] = Width;
+            iniFile.Save("Config.ini");
         }
     }
 }

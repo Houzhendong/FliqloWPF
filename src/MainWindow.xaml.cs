@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Policy;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace FliqloWPF
 {
