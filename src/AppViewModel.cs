@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Configuration;
-using System.IO;
+﻿using System;
 using System.Timers;
 
 namespace FliqloWPF
@@ -43,7 +40,7 @@ namespace FliqloWPF
         public double Width
         {
             get => width;
-            set => SetProperty(ref width, value); 
+            set => SetProperty(ref width, value);
         }
 
         public byte Brightness
@@ -91,6 +88,7 @@ namespace FliqloWPF
             Properties.Settings.Default.Brightness = Brightness;
             Properties.Settings.Default.Width = Width;
             Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
         }
     }
 }

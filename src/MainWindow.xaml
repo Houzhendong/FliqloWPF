@@ -17,6 +17,7 @@
         <help:WidthToFontSizeConverter x:Key="FontSizeConverter" />
         <help:ValueToColorConverter x:Key="ByteToColorConverter" />
         <help:ScaleWidthConverter x:Key="ScaleWidthConverter" />
+        <help:FlipNumberSizeConverter x:Key="WidthConverter" />
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="MouseMove">
@@ -39,13 +40,20 @@
         </Grid.ColumnDefinitions>
 
         <!--Hour-->
-        <local:FlipNumber Width="{Binding ElementName=SizeSlider,Path=Value}"
-                          Height="{Binding Width,RelativeSource={RelativeSource Self}}"
+        <local:FlipNumber Height="{Binding Width,RelativeSource={RelativeSource Self}}"
                           CurrentNumber="{Binding Hour}"
                           Brightness="{Binding ElementName=BrightSlider,Path=Value,Converter={StaticResource ByteToColorConverter}}"
                           ShowMeridiemIndicator="{Binding Is12HourClock}"
                           IsAM="{Binding IsAM}"
-                          HorizontalAlignment="Right" />
+                          HorizontalAlignment="Right">
+            <local:FlipNumber.Width>
+                <MultiBinding Converter="{StaticResource WidthConverter}">
+                    <Binding ElementName="SizeSlider"
+                             Path="Value" />
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" Path="ActualHeight"/>
+                </MultiBinding> 
+            </local:FlipNumber.Width> 
+        </local:FlipNumber>
 
         <TextBlock x:Name="InfoText"
                    Text="Press any key to exit the screensaver"
@@ -57,12 +65,20 @@
                    Opacity="0" />
 
         <!--Minute-->
-        <local:FlipNumber Width="{Binding ElementName=SizeSlider,Path=Value}"
+        <local:FlipNumber 
                           Height="{Binding Width,RelativeSource={RelativeSource Self}}"
                           CurrentNumber="{Binding Minute}"
                           Brightness="{Binding ElementName=BrightSlider,Path=Value,Converter={StaticResource ByteToColorConverter}}"
                           Grid.Column="2"
-                          HorizontalAlignment="Left" />
+                          HorizontalAlignment="Left">
+            <local:FlipNumber.Width>
+                <MultiBinding Converter="{StaticResource WidthConverter}">
+                    <Binding ElementName="SizeSlider"
+                             Path="Value" />
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" Path="ActualHeight"/>
+                </MultiBinding> 
+            </local:FlipNumber.Width> 
+        </local:FlipNumber>
 
 
         <!--Setting Button-->
@@ -131,8 +147,8 @@
                        FontSize="18" />
             <Slider Orientation="Horizontal"
                     Name="SizeSlider"
-                    Maximum="{Binding ActualHeight,RelativeSource={RelativeSource AncestorType=Window},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.8}"
-                    Minimum="{Binding ActualHeight,RelativeSource={RelativeSource AncestorType=Window},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.5}"
+                    Maximum="0.85"
+                    Minimum="0.5"
                     Value="{Binding Width,Mode=TwoWay}"
                     VerticalAlignment="Center"
                     Grid.Row="1"

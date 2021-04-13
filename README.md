@@ -1,4 +1,7 @@
 # FliqloWPF
+
+![ScreenShot](./ScreenShot.png)
+
 A Fliqlo like screensaver write by wpf
 
 environment require ：.net framework >= 4.5

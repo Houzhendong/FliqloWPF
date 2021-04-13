@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FliqloWPF
 {
@@ -25,6 +14,7 @@ namespace FliqloWPF
         DoubleAnimation nextBottomHalfFlipAnimation;
         DoubleAnimation currentTopHalfFlipAnimation;
         Storyboard storyboard;
+        bool isAnimating;
 
         public FlipNumber()
         {
@@ -61,6 +51,7 @@ namespace FliqloWPF
             currentTopPage.Visibility = Visibility.Collapsed;
             nextBottomPage.Visibility = Visibility.Collapsed;
             LastNumber = CurrentNumber;
+            isAnimating = false;
         }
 
         #region Dependency Property
@@ -121,10 +112,15 @@ namespace FliqloWPF
 
         public void DoFlipAnimation()
         {
+            if (isAnimating)
+                return;
+
             currentBottomPage.Visibility = Visibility.Visible;
             currentTopPage.Visibility = Visibility.Visible;
             nextBottomPage.Visibility = Visibility.Visible;
             storyboard.Begin(this);
+
+            isAnimating = true;
         }
 
     }
