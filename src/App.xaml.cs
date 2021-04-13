@@ -20,10 +20,12 @@ namespace FliqloWPF
             if(System.Windows.Forms.SystemInformation.MonitorCount > 1)
             {
                 var workingArea = System.Windows.Forms.Screen.AllScreens.Where(s => !s.Primary).FirstOrDefault().WorkingArea;
-                var secondWindow = new MainWindow();
-                secondWindow.WindowStartupLocation = WindowStartupLocation.Manual;
-                secondWindow.Top = workingArea.Top;
-                secondWindow.Left = workingArea.Left;
+                var secondWindow = new MainWindow
+                {
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Top = workingArea.Top,
+                    Left = workingArea.Left
+                };
                 secondWindow.Show();
             }
         }

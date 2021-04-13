@@ -12,7 +12,7 @@ namespace FliqloWPF
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new AppViewModel();
+            DataContext = AppViewModel.Instance; 
         }
 
         private void SettingButton_Click(object sender, RoutedEventArgs e)

@@ -12,6 +12,7 @@ namespace FliqloWPF
         bool isAM;
         double width;
         byte brightness;
+        static AppViewModel instance;
 
         public string Minute
         {
@@ -47,6 +48,19 @@ namespace FliqloWPF
         {
             get => brightness;
             set => SetProperty(ref brightness, value);
+        }
+
+        public static AppViewModel Instance
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    instance = new AppViewModel();
+                    return instance;
+                }
+                return instance;
+            }
         }
 
         public AppViewModel()
