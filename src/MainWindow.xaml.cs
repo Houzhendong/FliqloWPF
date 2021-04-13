@@ -30,6 +30,7 @@ namespace FliqloWPF
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            WindowState = WindowState.Maximized;
             var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
             var arg = string.Join(string.Empty, args);
             if (arg.Contains("/c"))
