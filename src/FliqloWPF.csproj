@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="AppViewModel.cs" />
     <Compile Include="Converter\BooleanToMeridiemIndicatorConverter.cs" />
+    <Compile Include="Converter\FlipNumberSizeConverter.cs" />
     <Compile Include="Converter\HalfHeightToMarginConverter.cs" />
     <Compile Include="Converter\ValueToColorConverter.cs" />
     <Compile Include="Converter\WidthScaleConverter.cs" />
