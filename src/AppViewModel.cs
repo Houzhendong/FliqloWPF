@@ -10,7 +10,7 @@ namespace FliqloWPF
         string hour;
         bool is12HourClock;
         bool isAM;
-        double width;
+        double width = 0.8f;
         byte brightness;
         static AppViewModel instance;
 
