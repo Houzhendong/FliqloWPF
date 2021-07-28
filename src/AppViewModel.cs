@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Timers;
+using Microsoft.Win32;
 
 namespace FliqloWPF
 {
     public class AppViewModel : ObservableObject
     {
+        const string AppRegistryName = "FliqloWPF";
+        const string Is12HourName = "Is12Hour";
+        const string BrightnessName = "Brightness";
+        const string WidthName = "Width";
+
         readonly Timer timer;
         string minute;
         string hour;
@@ -54,7 +60,7 @@ namespace FliqloWPF
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new AppViewModel();
                     return instance;
@@ -65,18 +71,30 @@ namespace FliqloWPF
 
         public AppViewModel()
         {
-            Init();
+            if (HaveRegistryKey())
+            {
+                LoadSettings();
+            }
+            else
+            {
+                InitRegistry();
+            }
             CalculateHourAndMinute();
             timer = new Timer(250);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
 
-        private void Init()
+        private void LoadSettings()
         {
-            Is12HourClock = Properties.Settings.Default.Is12HourClock;
-            Brightness = Properties.Settings.Default.Brightness;
-            Width = Properties.Settings.Default.Width;
+            RegistryKey localMechine = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
+            RegistryKey appKey = localMechine.OpenSubKey(AppRegistryName, true);
+
+            Is12HourClock = bool.Parse(appKey.GetValue(Is12HourName).ToString());
+            Brightness = byte.Parse(appKey.GetValue(BrightnessName).ToString());
+            Width = double.Parse(appKey.GetValue(WidthName).ToString());
+
+            appKey.Close();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -98,11 +116,37 @@ namespace FliqloWPF
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.Is12HourClock = Is12HourClock;
-            Properties.Settings.Default.Brightness = Brightness;
-            Properties.Settings.Default.Width = Width;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
+            RegistryKey localMechine = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
+            RegistryKey appKey = localMechine.OpenSubKey(AppRegistryName, true);
+            appKey.SetValue(Is12HourName, Is12HourClock);
+            appKey.SetValue(BrightnessName, Brightness);
+            appKey.SetValue(WidthName, Width);
+            appKey.Close();
+        }
+
+        private void InitRegistry()
+        {
+            RegistryKey localMechine = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
+            RegistryKey appKey = localMechine.OpenSubKey(AppRegistryName, true);
+            if (appKey == null)
+            {
+                appKey = localMechine.CreateSubKey(AppRegistryName);
+            }
+            appKey.SetValue(Is12HourName, Is12HourClock);
+            appKey.SetValue(BrightnessName, Brightness);
+            appKey.SetValue(WidthName, Width);
+            appKey.Close();
+        }
+
+        private bool HaveRegistryKey()
+        {
+            RegistryKey localMechine = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
+            RegistryKey appKey = localMechine.OpenSubKey(AppRegistryName, true);
+            bool result = appKey != null;
+
+            appKey?.Close();
+
+            return result;
         }
     }
 }
