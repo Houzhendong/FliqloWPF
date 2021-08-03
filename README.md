@@ -2,7 +2,7 @@
 
 ![ScreenShot](./ScreenShot.png)
 
-A Fliqlo like screensaver write by wpf
+A Fliqlo like screensaver written in wpf
 
 environment require ：.net framework >= 4.5
 
