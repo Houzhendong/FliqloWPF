@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 
 namespace FliqloWPF
@@ -17,10 +16,11 @@ namespace FliqloWPF
 
         private void RunAtSecondScreen()
         {
-            if(System.Windows.Forms.SystemInformation.MonitorCount > 1)
+            System.Diagnostics.Debug.WriteLine($"\r\n{System.Windows.Forms.Screen.PrimaryScreen.WorkingArea}\r\n");
+            if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
             {
-                var workingArea = System.Windows.Forms.Screen.AllScreens.Where(s => !s.Primary).FirstOrDefault().WorkingArea;
-                var secondWindow = new MainWindow
+                System.Drawing.Rectangle workingArea = System.Windows.Forms.Screen.AllScreens.Where(s => !s.Primary).FirstOrDefault().WorkingArea;
+                MainWindow secondWindow = new MainWindow
                 {
                     WindowStartupLocation = WindowStartupLocation.Manual,
                     Top = workingArea.Top,

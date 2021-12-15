@@ -6,9 +6,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Fonts.xaml"/>
+                <ResourceDictionary Source="Fonts.xaml" />
+                <ResourceDictionary Source="Number.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-         
+
     </Application.Resources>
 </Application>

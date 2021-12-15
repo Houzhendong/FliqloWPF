@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="FliqloWPF.FlipNumber"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:FliqloWPF"
              xmlns:help="clr-namespace:FliqloWPF.Converter"
-             mc:Ignorable="d"
+             xmlns:local="clr-namespace:FliqloWPF"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="400"
-             d:DesignWidth="400">
+             d:DesignWidth="400"
+             mc:Ignorable="d">
     <UserControl.Resources>
         <help:WidthToCornerRadiusConverter x:Key="CornerRadiusConverter" />
         <help:WidthToFontSizeConverter x:Key="FontSizeConverter" />
@@ -20,27 +20,24 @@
         <help:ScaleWidthConverter x:Key="ScaleWidthConverter" />
     </UserControl.Resources>
 
-    <Viewport3D Width="{Binding Width, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                Height="{Binding Width,RelativeSource={RelativeSource Self}}">
+    <Viewport3D Width="{Binding Width, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
 
         <Viewport3D.Camera>
-            <PerspectiveCamera Position="0,0,1.4"
-                               LookDirection="0,0,-1" />
+            <PerspectiveCamera LookDirection="0,0,-1" Position="0,0,1.4" />
         </Viewport3D.Camera>
 
         <Viewport3D.Children>
             <ModelVisual3D>
                 <ModelVisual3D.Content>
-                    <DirectionalLight Color="{Binding Brightness,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}" />
+                    <DirectionalLight d:Color="#ffffff" Color="{Binding Brightness, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}" />
                 </ModelVisual3D.Content>
             </ModelVisual3D>
-            <!--Next Page-->
+            <!--  Next Page  -->
             <Viewport2DVisual3D>
                 <Viewport2DVisual3D.Transform>
                     <RotateTransform3D>
                         <RotateTransform3D.Rotation>
-                            <AxisAngleRotation3D Angle="0"
-                                                 Axis="1, 0, 0" />
+                            <AxisAngleRotation3D Angle="0" Axis="1, 0, 0" />
                         </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                 </Viewport2DVisual3D.Transform>
@@ -58,40 +55,38 @@
                 <Border x:Name="nextPage"
                         Width="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
                         Height="{Binding Width, RelativeSource={RelativeSource Self}}"
-                        CornerRadius="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource CornerRadiusConverter}}">
+                        CornerRadius="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource CornerRadiusConverter}}">
                     <Border.Background>
-                        <LinearGradientBrush StartPoint="0.5,0"
-                                             EndPoint="0.5,1">
-                            <GradientStop Color="#161616"
-                                          Offset="0.0" />
-                            <GradientStop Color="#0c0c0c"
-                                          Offset="1.0" />
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0.0" Color="#161616" />
+                            <GradientStop Offset="1.0" Color="#0c0c0c" />
                         </LinearGradientBrush>
                     </Border.Background>
                     <Grid>
-                        <Border Background="Black"
-                                Width="{Binding RelativeSource={RelativeSource AncestorType=Border},Path=Width}"
-                                Height="{Binding Width,RelativeSource={RelativeSource Self},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.01428}"
-                                Panel.ZIndex="1" />
-                        <TextBlock Text="{Binding CurrentNumber,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                                   FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=Border},Converter={StaticResource FontSizeConverter}}" />
-                        <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVerticalAlignmentConverter}}"
-                                   Text="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToAMPMConverter}}"
-                                   Visibility="{Binding ShowMeridiemIndicator,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVisibilityConverter}}"
-                                   FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontSizeConverter}}"
-                                   Margin="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontMarginConverter}}" />
+                        <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=Width}"
+                                Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
+                                Panel.ZIndex="1"
+                                Background="Black" />
+                        <TextBlock d:Text="10"
+                                   FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=Border}, Converter={StaticResource FontSizeConverter}}"
+                                   Text="{Binding CurrentNumber, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}" />
+                        <TextBlock Margin="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontMarginConverter}}"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVerticalAlignmentConverter}}"
+                                   FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontSizeConverter}}"
+                                   Text="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToAMPMConverter}}"
+                                   Visibility="{Binding ShowMeridiemIndicator, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
 
                 </Border>
             </Viewport2DVisual3D>
-            <!--Current Top Half-->
+            <!--  Current Top Half  -->
             <Viewport2DVisual3D>
                 <Viewport2DVisual3D.Transform>
                     <RotateTransform3D>
                         <RotateTransform3D.Rotation>
-                            <AxisAngleRotation3D Angle="0"
-                                                 x:Name="axisCurrentTopHalf"
+                            <AxisAngleRotation3D x:Name="axisCurrentTopHalf"
+                                                 Angle="0"
                                                  Axis="1, 0, 0" />
                         </RotateTransform3D.Rotation>
                     </RotateTransform3D>
@@ -106,48 +101,46 @@
                 </Viewport2DVisual3D.Material>
 
                 <Border x:Name="currentTopPage"
-                        Width="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                        Height="{Binding Width,RelativeSource={RelativeSource Self},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.5}"
+                        Width="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
+                        Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.5}"
                         ClipToBounds="True">
-                    <Border Width="{Binding Width,RelativeSource={RelativeSource AncestorType=Border}}"
+                    <Border Width="{Binding Width, RelativeSource={RelativeSource AncestorType=Border}}"
                             Height="{Binding Width, RelativeSource={RelativeSource Self}}"
-                            CornerRadius="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource CornerRadiusConverter}}">
+                            CornerRadius="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource CornerRadiusConverter}}">
                         <Border.Background>
-                            <LinearGradientBrush StartPoint="0.5,0"
-                                                 EndPoint="0.5,1">
-                                <GradientStop Color="#161616"
-                                              Offset="0.0" />
-                                <GradientStop Color="#0c0c0c"
-                                              Offset="1.0" />
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="0.0" Color="#161616" />
+                                <GradientStop Offset="1.0" Color="#0c0c0c" />
 
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
-                            <Border Background="Black"
-                                    Width="{Binding RelativeSource={RelativeSource AncestorType=Border},Path=Width}"
-                                    Height="{Binding Width,RelativeSource={RelativeSource Self},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.01428}"
-                                    Panel.ZIndex="1" />
-                            <TextBlock Text="{Binding LastNumber,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                                       FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=Border},Converter={StaticResource FontSizeConverter}}" />
-                            <TextBlock HorizontalAlignment="Left"
-                                       VerticalAlignment="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVerticalAlignmentConverter}}"
-                                       Text="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToAMPMConverter}}"
-                                       Visibility="{Binding ShowMeridiemIndicator,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVisibilityConverter}}"
-                                       FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontSizeConverter}}"
-                                       Margin="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontMarginConverter}}" />
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=Width}"
+                                    Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
+                                    Panel.ZIndex="1"
+                                    Background="Black" />
+                            <TextBlock d:Text="10"
+                                       FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=Border}, Converter={StaticResource FontSizeConverter}}"
+                                       Text="{Binding LastNumber, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}" />
+                            <TextBlock Margin="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontMarginConverter}}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVerticalAlignmentConverter}}"
+                                       FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontSizeConverter}}"
+                                       Text="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToAMPMConverter}}"
+                                       Visibility="{Binding ShowMeridiemIndicator, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </Grid>
 
                     </Border>
 
                 </Border>
             </Viewport2DVisual3D>
-            <!--Next Bottom Half-->
+            <!--  Next Bottom Half  -->
             <Viewport2DVisual3D>
                 <Viewport2DVisual3D.Transform>
                     <RotateTransform3D>
                         <RotateTransform3D.Rotation>
-                            <AxisAngleRotation3D Angle="0"
-                                                 x:Name="axisNextBottomHalf"
+                            <AxisAngleRotation3D x:Name="axisNextBottomHalf"
+                                                 Angle="0"
                                                  Axis="1, 0, 0" />
                         </RotateTransform3D.Rotation>
                     </RotateTransform3D>
@@ -164,54 +157,51 @@
                 </Viewport2DVisual3D.Material>
 
                 <Border x:Name="nextBottomPage"
-                        Width="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                        Height="{Binding Width,RelativeSource={RelativeSource Self},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.5}"
+                        Width="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
+                        Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.5}"
                         ClipToBounds="True">
                     <Border Width="{Binding Width, RelativeSource={RelativeSource AncestorType=Border}}"
                             Height="{Binding Width, RelativeSource={RelativeSource Self}}"
-                            Margin="{Binding Height, RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource HalfHeightToMarginConverter}}"
-                            CornerRadius="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource CornerRadiusConverter}}">
+                            Margin="{Binding Height, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource HalfHeightToMarginConverter}}"
+                            CornerRadius="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource CornerRadiusConverter}}">
                         <Border.Background>
-                            <LinearGradientBrush StartPoint="0.5,0"
-                                                 EndPoint="0.5,1">
-                                <GradientStop Color="#161616"
-                                              Offset="0.0" />
-                                <GradientStop Color="#0c0c0c"
-                                              Offset="1.0" />
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="0.0" Color="#161616" />
+                                <GradientStop Offset="1.0" Color="#0c0c0c" />
 
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
-                            <Border Background="Black"
-                                    Width="{Binding RelativeSource={RelativeSource AncestorType=Border},Path=Width}"
-                                    Height="{Binding Width,RelativeSource={RelativeSource Self},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.01428}"
-                                    Panel.ZIndex="1" />
-                            <TextBlock Text="{Binding CurrentNumber,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                                       FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource FontSizeConverter}}" />
-                            <TextBlock HorizontalAlignment="Left"
-                                       VerticalAlignment="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVerticalAlignmentConverter}}"
-                                       Text="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToAMPMConverter}}"
-                                       Visibility="{Binding ShowMeridiemIndicator,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVisibilityConverter}}"
-                                       FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontSizeConverter}}"
-                                       Margin="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontMarginConverter}}" />
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=Width}"
+                                    Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
+                                    Panel.ZIndex="1"
+                                    Background="Black" />
+                            <TextBlock d:Text="10"
+                                       FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource FontSizeConverter}}"
+                                       Text="{Binding CurrentNumber, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}" />
+                            <TextBlock Margin="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontMarginConverter}}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVerticalAlignmentConverter}}"
+                                       FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontSizeConverter}}"
+                                       Text="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToAMPMConverter}}"
+                                       Visibility="{Binding ShowMeridiemIndicator, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </Grid>
 
                     </Border>
 
                 </Border>
             </Viewport2DVisual3D>
-            <!--Current Bottom Half-->
+            <!--  Current Bottom Half  -->
             <Viewport2DVisual3D>
                 <Viewport2DVisual3D.Transform>
                     <RotateTransform3D>
                         <RotateTransform3D.Rotation>
-                            <AxisAngleRotation3D Angle="0"
-                                                 Axis="1, 0, 0" />
+                            <AxisAngleRotation3D Angle="0" Axis="1, 0, 0" />
                         </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                 </Viewport2DVisual3D.Transform>
 
-                <!-- The Geometry, Material, and Visual for the Viewport2DVisual3D -->
+                <!--  The Geometry, Material, and Visual for the Viewport2DVisual3D  -->
                 <Viewport2DVisual3D.Geometry>
                     <MeshGeometry3D Positions="-0.5,0,0 -0.5,-0.5,0 0.5,-0.5,0 0.5,0,0"
                                     TextureCoordinates="0,0 0,1 1,1 1,0"
@@ -223,36 +213,34 @@
                 </Viewport2DVisual3D.Material>
 
                 <Border Name="currentBottomPage"
-                        Width="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                        Height="{Binding Width, RelativeSource={RelativeSource Self},Converter={StaticResource  ScaleWidthConverter},ConverterParameter=0.5}"
+                        Width="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
+                        Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.5}"
                         ClipToBounds="True">
                     <Border Width="{Binding Width, RelativeSource={RelativeSource AncestorType=Border}}"
                             Height="{Binding Width, RelativeSource={RelativeSource Self}}"
-                            Margin="{Binding Height,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource HalfHeightToMarginConverter}}"
-                            CornerRadius="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource CornerRadiusConverter}}">
+                            Margin="{Binding Height, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource HalfHeightToMarginConverter}}"
+                            CornerRadius="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource CornerRadiusConverter}}">
                         <Border.Background>
-                            <LinearGradientBrush StartPoint="0.5,0"
-                                                 EndPoint="0.5,1">
-                                <GradientStop Color="#161616"
-                                              Offset="0.0" />
-                                <GradientStop Color="#0c0c0c"
-                                              Offset="1.0" />
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="0.0" Color="#161616" />
+                                <GradientStop Offset="1.0" Color="#0c0c0c" />
 
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
-                            <Border Background="Black"
-                                    Width="{Binding RelativeSource={RelativeSource AncestorType=Border},Path=Width}"
-                                    Height="{Binding Width,RelativeSource={RelativeSource Self},Converter={StaticResource ScaleWidthConverter},ConverterParameter=0.01428}"
-                                    Panel.ZIndex="1" />
-                            <TextBlock Text="{Binding LastNumber,RelativeSource={RelativeSource AncestorType=local:FlipNumber}}"
-                                       FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=Border},Converter={StaticResource FontSizeConverter}}" />
-                            <TextBlock HorizontalAlignment="Left"
-                                       VerticalAlignment="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVerticalAlignmentConverter}}"
-                                       Text="{Binding IsAM,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToAMPMConverter}}"
-                                       Visibility="{Binding ShowMeridiemIndicator,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource BoolToVisibilityConverter}}"
-                                       FontSize="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontSizeConverter}}"
-                                       Margin="{Binding Width,RelativeSource={RelativeSource AncestorType=local:FlipNumber},Converter={StaticResource WidthToSmallFontMarginConverter}}" />
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=Width}"
+                                    Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
+                                    Panel.ZIndex="1"
+                                    Background="Black" />
+                            <TextBlock d:Text="10"
+                                       FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=Border}, Converter={StaticResource FontSizeConverter}}"
+                                       Text="{Binding LastNumber, RelativeSource={RelativeSource AncestorType=local:FlipNumber}}" />
+                            <TextBlock Margin="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontMarginConverter}}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVerticalAlignmentConverter}}"
+                                       FontSize="{Binding Width, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource WidthToSmallFontSizeConverter}}"
+                                       Text="{Binding IsAM, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToAMPMConverter}}"
+                                       Visibility="{Binding ShowMeridiemIndicator, RelativeSource={RelativeSource AncestorType=local:FlipNumber}, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </Grid>
 
                     </Border>
