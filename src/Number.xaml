@@ -10,6 +10,7 @@
     <help:ScaleWidthConverter x:Key="ScaleWidthConverter" />
     <help:BooleanToVerticalAlignmentConverter x:Key="BoolToVerticalAlignmentConverter" />
     <help:BooleanToMeridiemIndicatorConverter x:Key="BoolToAMPMConverter" />
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <help:FlipNumberSizeConverter x:Key="WidthConverter" />
 
     <Style TargetType="{x:Type local:Number}">
@@ -27,7 +28,7 @@
                         <Viewport3D.Children>
                             <ModelVisual3D>
                                 <ModelVisual3D.Content>
-                                    <DirectionalLight Color="{TemplateBinding Brightness}" />
+                                    <DirectionalLight Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Brightness}" />
                                 </ModelVisual3D.Content>
                             </ModelVisual3D>
 
@@ -62,18 +63,20 @@
                                             </LinearGradientBrush>
                                         </Border.Background>
                                         <Grid>
-                                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=Width}"
-                                                    Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
+                                            <Border Width="14"
+                                                    Height="0.14"
                                                     Panel.ZIndex="1"
                                                     Background="Black" />
                                             <TextBlock FontSize="12" Text="{TemplateBinding CurrentNumber}" />
-                                            <TextBlock Margin="1,1,0,0"
+                                            <TextBlock Margin="0.7,0.7,0.7,0.7"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="{TemplateBinding IsAM,
                                                                                            Converter={StaticResource BoolToVerticalAlignmentConverter}}"
                                                        FontSize="2"
                                                        Text="{TemplateBinding IsAM,
-                                                                              Converter={StaticResource BoolToAMPMConverter}}" />
+                                                                              Converter={StaticResource BoolToAMPMConverter}}"
+                                                       Visibility="{TemplateBinding ShowMeridiemIndicator,
+                                                                                    Converter={StaticResource BoolToVisibilityConverter}}" />
                                         </Grid>
                                     </Border>
                                 </Viewbox>
@@ -85,7 +88,7 @@
                                     <RotateTransform3D>
                                         <RotateTransform3D.Rotation>
                                             <AxisAngleRotation3D x:Name="axisCurrentTopHalf"
-                                                                 Angle="0"
+                                                                 Angle="90"
                                                                  Axis="1, 0, 0" />
                                         </RotateTransform3D.Rotation>
                                     </RotateTransform3D>
@@ -115,16 +118,20 @@
                                                 </LinearGradientBrush>
                                             </Border.Background>
                                             <Grid>
-                                                <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=Width}"
-                                                        Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
+                                                <Border Width="14"
+                                                        Height="0.14"
                                                         Panel.ZIndex="1"
                                                         Background="Black" />
-                                                <TextBlock FontSize="12" Text="14" />
-                                                <TextBlock Margin="1,1,0,0"
+                                                <TextBlock FontSize="12" Text="{TemplateBinding LastNumber}" />
+                                                <TextBlock Margin="0.7,0.7,0.7,0.7"
                                                            HorizontalAlignment="Left"
-                                                           VerticalAlignment="Top"
+                                                           VerticalAlignment="{TemplateBinding IsAM,
+                                                                                               Converter={StaticResource BoolToVerticalAlignmentConverter}}"
                                                            FontSize="2"
-                                                           Text="AM" />
+                                                           Text="{TemplateBinding IsAM,
+                                                                                  Converter={StaticResource BoolToAMPMConverter}}"
+                                                           Visibility="{TemplateBinding ShowMeridiemIndicator,
+                                                                                        Converter={StaticResource BoolToVisibilityConverter}}" />
                                             </Grid>
                                         </Border>
                                     </Border>
@@ -137,7 +144,7 @@
                                     <RotateTransform3D>
                                         <RotateTransform3D.Rotation>
                                             <AxisAngleRotation3D x:Name="axisNextBottomHalf"
-                                                                 Angle="0"
+                                                                 Angle="90"
                                                                  Axis="1, 0, 0" />
                                         </RotateTransform3D.Rotation>
                                     </RotateTransform3D>
@@ -172,12 +179,16 @@
                                                         Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
                                                         Panel.ZIndex="1"
                                                         Background="Black" />
-                                                <TextBlock FontSize="12" Text="11" />
-                                                <TextBlock Margin="1,1,0,0"
+                                                <TextBlock FontSize="12" Text="{TemplateBinding CurrentNumber}" />
+                                                <TextBlock Margin="0.7,0.7,0.7,0.7"
                                                            HorizontalAlignment="Left"
-                                                           VerticalAlignment="Top"
+                                                           VerticalAlignment="{TemplateBinding IsAM,
+                                                                                               Converter={StaticResource BoolToVerticalAlignmentConverter}}"
                                                            FontSize="2"
-                                                           Text="PM" />
+                                                           Text="{TemplateBinding IsAM,
+                                                                                  Converter={StaticResource BoolToAMPMConverter}}"
+                                                           Visibility="{TemplateBinding ShowMeridiemIndicator,
+                                                                                        Converter={StaticResource BoolToVisibilityConverter}}" />
                                             </Grid>
                                         </Border>
                                     </Border>
@@ -224,12 +235,16 @@
                                                         Height="{Binding Width, RelativeSource={RelativeSource Self}, Converter={StaticResource ScaleWidthConverter}, ConverterParameter=0.01428}"
                                                         Panel.ZIndex="1"
                                                         Background="Black" />
-                                                <TextBlock FontSize="12" Text="12" />
-                                                <TextBlock Margin="1,1,0,0"
+                                                <TextBlock FontSize="12" Text="{TemplateBinding LastNumber}" />
+                                                <TextBlock Margin="0.7,0.7,0.7,0.7"
                                                            HorizontalAlignment="Left"
-                                                           VerticalAlignment="Top"
+                                                           VerticalAlignment="{TemplateBinding IsAM,
+                                                                                               Converter={StaticResource BoolToVerticalAlignmentConverter}}"
                                                            FontSize="2"
-                                                           Text="AM" />
+                                                           Text="{TemplateBinding IsAM,
+                                                                                  Converter={StaticResource BoolToAMPMConverter}}"
+                                                           Visibility="{TemplateBinding ShowMeridiemIndicator,
+                                                                                        Converter={StaticResource BoolToVisibilityConverter}}" />
                                             </Grid>
                                         </Border>
                                     </Border>

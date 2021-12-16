@@ -17,13 +17,13 @@ namespace FliqloWPF
 
         private void SettingButton_Click(object sender, RoutedEventArgs e)
         {
-            //SettingPanel.Visibility = Visibility.Visible;
+            SettingPanel.Visibility = SettingPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as AppViewModel).SaveSetting();
-            //SettingPanel.Visibility = Visibility.Collapsed;
+            SettingPanel.Visibility = Visibility.Collapsed;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -33,9 +33,9 @@ namespace FliqloWPF
             string arg = string.Join(string.Empty, args);
             if (arg.Contains("/c"))
             {
-                //SettingButton.Visibility = Visibility.Visible;
-                KeyDown += MainWindow_KeyDown;
+                SettingButton.Visibility = Visibility.Visible;
             }
+            KeyDown += MainWindow_KeyDown;
         }
 
         private void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

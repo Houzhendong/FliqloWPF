@@ -10,7 +10,7 @@ namespace FliqloWPF.Converter
         {
             double scale = (double)values[0];
             double height = (double)values[1];
-            return scale * height;
+            return scale * height * 0.5;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

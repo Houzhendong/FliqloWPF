@@ -48,14 +48,17 @@ namespace FliqloWPF
                 Duration = TimeSpan.FromSeconds(0.5),
             };
 
-            Storyboard.SetTarget(_nextBottomHalfFlipAnimation, _axisNextBottomHalf);
-            Storyboard.SetTarget(_currentTopHalfFlipAnimation, _axisCurrentTopHalf);
-            Storyboard.SetTargetProperty(_nextBottomHalfFlipAnimation, new PropertyPath("Angle"));
-            Storyboard.SetTargetProperty(_currentTopHalfFlipAnimation, new PropertyPath("Angle"));
-            _storyboard.Children.Add(_nextBottomHalfFlipAnimation);
-            _storyboard.Children.Add(_currentTopHalfFlipAnimation);
+            _currentTopHalfFlipAnimation.Completed += Storyboard_Completed;
+            _nextBottomHalfFlipAnimation.Completed += Storyboard_Completed;
 
-            _storyboard.Completed += Storyboard_Completed;
+            //Storyboard.SetTarget(_nextBottomHalfFlipAnimation, _axisNextBottomHalf);
+            //Storyboard.SetTarget(_currentTopHalfFlipAnimation, _axisCurrentTopHalf);
+            //Storyboard.SetTargetProperty(_nextBottomHalfFlipAnimation, new PropertyPath("Angle"));
+            //Storyboard.SetTargetProperty(_currentTopHalfFlipAnimation, new PropertyPath("Angle"));
+            //_storyboard.Children.Add(_nextBottomHalfFlipAnimation);
+            //_storyboard.Children.Add(_currentTopHalfFlipAnimation);
+
+            //_storyboard.Completed += Storyboard_Completed;
         }
 
         private void Storyboard_Completed(object sender, EventArgs e)
@@ -71,20 +74,20 @@ namespace FliqloWPF
 
         public string LastNumber
         {
+            get { return (string)GetValue(LastNumberProperty); }
+            set { SetValue(LastNumberProperty, value); }
+        }
+
+        public static readonly DependencyProperty LastNumberProperty =
+            DependencyProperty.Register(nameof(LastNumber), typeof(string), typeof(Number), new PropertyMetadata(defaultValue: "0"));
+
+        public string CurrentNumber
+        {
             get { return (string)GetValue(CurrentNumberProperty); }
             set { SetValue(CurrentNumberProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentNumberProperty =
-            DependencyProperty.Register(nameof(LastNumber), typeof(string), typeof(Number), new PropertyMetadata(defaultValue: "0"));
-
-        public string CurrentNumber
-        {
-            get { return (string)GetValue(NextNumberProperty); }
-            set { SetValue(NextNumberProperty, value); }
-        }
-
-        public static readonly DependencyProperty NextNumberProperty =
             DependencyProperty.Register(nameof(CurrentNumber), typeof(string), typeof(Number), new PropertyMetadata("0", OnCurrentNumberChanged));
 
         public bool IsAM
@@ -137,7 +140,9 @@ namespace FliqloWPF
             _currentBottomPage.Visibility = Visibility.Visible;
             _currentTopPage.Visibility = Visibility.Visible;
             _nextBottomPage.Visibility = Visibility.Visible;
-            _storyboard.Begin(this);
+            //_storyboard.Begin();
+            _axisCurrentTopHalf.BeginAnimation(AxisAngleRotation3D.AngleProperty, _currentTopHalfFlipAnimation);
+            _axisNextBottomHalf.BeginAnimation(AxisAngleRotation3D.AngleProperty, _nextBottomHalfFlipAnimation);
 
             _isAnimating = true;
         }
