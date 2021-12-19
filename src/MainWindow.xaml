@@ -21,6 +21,28 @@
         <help:ValueToColorConverter x:Key="ByteToColorConverter" />
         <help:ScaleWidthConverter x:Key="ScaleWidthConverter" />
         <help:FlipNumberSizeConverter x:Key="WidthConverter" />
+
+        <Style x:Key="ButtonBase" TargetType="Button">
+            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Self}, Path=Width}" />
+            <Setter Property="Foreground" Value="#bbbbbb" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="#262729"
+                                BorderBrush="#000000"
+                                BorderThickness="1">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Margin="5"
+                                      Data="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Content}"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Stretch="Uniform" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
     <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}}">
         <Grid.ColumnDefinitions>
@@ -101,12 +123,14 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!--  OK Button  -->
 
-                <Button Grid.Row="3"
+                <Button Grid.Row="5"
                         Grid.Column="1"
                         Width="80"
                         Height="35"
@@ -165,6 +189,49 @@
                         Orientation="Horizontal"
                         Value="{Binding Brightness, Mode=TwoWay}" />
 
+                <!--  TimeSpan  -->
+                <TextBlock Grid.Row="3"
+                           Margin="15,0,0,0"
+                           HorizontalAlignment="Left"
+                           FontSize="18"
+                           Text="TimeSpan" />
+                <StackPanel Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                    <TextBox VerticalAlignment="Center"
+                             d:Text="5"
+                             Background="#262729"
+                             FontSize="18"
+                             Foreground="#bbbbbb"
+                             IsReadOnly="True"
+                             Text="{Binding TriggerTimespan, Mode=TwoWay}" />
+                    <TextBlock HorizontalAlignment="Right"
+                               FontSize="18"
+                               Text="Minute(s)" />
+                    <Button Width="28"
+                            Click="AddClick"
+                            Content="M 19 13 h -6 v 6 h -2 v -6 H 5 v -2 h 6 V 5 h 2 v 6 h 6 v 2 Z"
+                            FontWeight="Bold"
+                            Style="{StaticResource ButtonBase}" />
+                    <Button Width="28"
+                            Click="MinusClick"
+                            Content="M 19 13 H 5 v -2 h 14 v 2 Z"
+                            FontWeight="Bold"
+                            Style="{StaticResource ButtonBase}" />
+                </StackPanel>
+
+                <!--  Start On boot  -->
+                <TextBlock Grid.Row="4"
+                           Margin="15,0,0,0"
+                           HorizontalAlignment="Left"
+                           FontSize="18"
+                           Text="Start On Boot" />
+                <CheckBox Grid.Row="4"
+                          Grid.Column="1"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding StartOnBoot}" />
             </Grid>
         </Grid>
     </Grid>

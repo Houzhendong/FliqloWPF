@@ -9,6 +9,8 @@ namespace FliqloWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private AppViewModel ViewModel => DataContext as AppViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -24,6 +26,7 @@ namespace FliqloWPF
         {
             (DataContext as AppViewModel).SaveSetting();
             SettingPanel.Visibility = Visibility.Collapsed;
+            SettingButton.Visibility = Visibility.Collapsed;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -31,16 +34,54 @@ namespace FliqloWPF
             WindowState = WindowState.Maximized;
             string[] args = Environment.GetCommandLineArgs().Skip(1).ToArray();
             string arg = string.Join(string.Empty, args);
-            if (arg.Contains("/c"))
-            {
-                SettingButton.Visibility = Visibility.Visible;
-            }
+            //if (arg.Contains("/c"))
+            //{
+            //    SettingButton.Visibility = Visibility.Visible;
+            //}
+            AppViewModel.Instance.ShowWindowEvent += ShowWindowEventHandler;
             KeyDown += MainWindow_KeyDown;
+        }
+
+        private async void ShowWindowEventHandler(object sender, EventArgs e)
+        {
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                foreach (Window item in Application.Current.Windows)
+                {
+                    item.Show();
+                }
+            });
         }
 
         private void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            Application.Current.Shutdown();
+            if (e.Key == System.Windows.Input.Key.LeftCtrl)
+            {
+                if (SettingButton.Visibility != Visibility.Visible)
+                {
+                    SettingButton.Visibility = Visibility.Visible;
+                }
+                return;
+            }
+
+            foreach (Window item in Application.Current.Windows)
+            {
+                SettingButton.Visibility = Visibility.Collapsed;
+                item.Hide();
+            }
+        }
+
+        private void AddClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.TriggerTimespan++;
+        }
+
+        private void MinusClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.TriggerTimespan > 1)
+            {
+                ViewModel.TriggerTimespan--;
+            }
         }
     }
 }
