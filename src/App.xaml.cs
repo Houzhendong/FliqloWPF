@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Windows;
 
 namespace FliqloWPF
@@ -8,10 +9,18 @@ namespace FliqloWPF
     /// </summary>
     public partial class App : Application
     {
+        Mutex Mutex { get; } = new Mutex(true, "5CD3C796-727B-405D-AB16-74F6994BE80C");
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (!Mutex.WaitOne(System.TimeSpan.Zero, true))
+            {
+                Current.Shutdown();
+            }
+
             base.OnStartup(e);
             RunAtSecondScreen();
+            Mutex.ReleaseMutex();
         }
 
         private void RunAtSecondScreen()
